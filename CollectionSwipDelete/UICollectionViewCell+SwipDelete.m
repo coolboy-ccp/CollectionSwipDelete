@@ -8,12 +8,14 @@
 
 #import "UICollectionViewCell+SwipDelete.h"
 #import <objc/runtime.h>
+#import "UICollectionView+SwipDelete.h"
 
 const void *editableKey = &editableKey;
 const void *editBlockKey = &editBlockKey;
 const void *deleteBtnKey = &deleteBtnKey;
 const void *originCenterXKey = &originCenterXKey;
 const void *currentCenterXKey = &currentCenterXKey;
+const void *clViewKey = &clViewKey;
 
 const CGFloat btnWidth = 80;
 const CGFloat sureBtnWidth = 120;
@@ -22,9 +24,18 @@ const CGFloat sureBtnWidth = 120;
 @property (nonatomic, strong) UIButton *deleteBtn;
 @property (nonatomic, assign) CGFloat originCenterX;
 @property (nonatomic, assign) CGFloat currentCenterX;
+@property (nonatomic, strong) UICollectionView *clView;
 @end
 
 @implementation UICollectionViewCell (SwipDelete)
+
+- (void)setClView:(UICollectionView *)clView {
+    objc_setAssociatedObject(self, clViewKey, clView, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (UICollectionView *)clView {
+    return objc_getAssociatedObject(self, clViewKey);
+}
 
 - (CGFloat)currentCenterX {
     id objc = objc_getAssociatedObject(self, currentCenterXKey);
@@ -32,16 +43,16 @@ const CGFloat sureBtnWidth = 120;
 }
 
 - (void)setCurrentCenterX:(CGFloat)currentCenterX {
-    objc_setAssociatedObject(self, currentCenterXKey, @(currentCenterX), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, currentCenterXKey, @(currentCenterX), OBJC_ASSOCIATION_RETAIN);
 }
 
 - (CGFloat)originCenterX {
     id objc = objc_getAssociatedObject(self, originCenterXKey);
-    return [objc floatValue];
+    return [objc doubleValue];
 }
 
 - (void)setOriginCenterX:(CGFloat)originCenterX {
-    objc_setAssociatedObject(self, originCenterXKey, @(originCenterX), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, originCenterXKey, @(originCenterX), OBJC_ASSOCIATION_RETAIN);
 }
 
 - (BOOL)editable {
@@ -51,8 +62,8 @@ const CGFloat sureBtnWidth = 120;
 
 - (void)setEditable:(BOOL)editable {
     if (editable) {
-        self.originCenterX = self.center.x;
-        self.currentCenterX = self.center.x;
+        self.originCenterX = 0;
+        self.currentCenterX = 0;
         [self addPanGesture];
         [self addDeletetButton];
     }
@@ -71,9 +82,41 @@ const CGFloat sureBtnWidth = 120;
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] init];
     [pan addTarget:self action:@selector(panAction:)];
     [self addGestureRecognizer:pan];
+    pan.delegate = self;
+}
+
+- (void)resetCellStatus:(UIGestureRecognizerState)state {
+    UICollectionView *clView = (UICollectionView *)[self superview];
+    if (clView) {
+        if (state == UIGestureRecognizerStateBegan) {
+            UICollectionViewCell *editingCell = clView.editingCell;
+            self.clView = clView;
+            if (editingCell) {
+                if (editingCell != self) {
+                    [editingCell hideDelBtn];
+                }
+            }
+            clView.touchedCell = self;
+            clView.editingCell = self;
+        }
+    }
+}
+
+- (void)prepareForPan:(UIGestureRecognizerState)state {
+    [self setOriginCenterX];
+    [self resetCellStatus:state];
+}
+
+- (void)setOriginCenterX {
+    if (self.originCenterX == 0) {
+        //
+        self.originCenterX = self.contentView.center.x;
+        self.currentCenterX = self.originCenterX;
+    }
 }
 
 - (void)panAction:(UIPanGestureRecognizer *)pan {
+    [self prepareForPan:pan.state];
     static CGFloat oX = 0;
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:
@@ -84,16 +127,17 @@ const CGFloat sureBtnWidth = 120;
             break;
         case UIGestureRecognizerStateChanged:
         {
+            if (self.clView.touchedCell != self) {
+                return;
+            }
             CGPoint translation = [pan translationInView:self];
             CGFloat moveX = translation.x - oX;
             CGPoint velocity = [pan velocityInView:self];
+            CGFloat newCenterX = self.currentCenterX + translation.x;
             if (moveX > 0 && velocity.x > self.deleteBtn.frame.size.width) {
                 [self hideDelBtn];
                 return;
             }
-            NSLog(@"velocity-----%lf---%lf", velocity.x, translation.x);
-            CGFloat distance = translation.x;
-            CGFloat newCenterX = self.currentCenterX + distance;
             if (newCenterX > self.originCenterX) {
                 newCenterX = self.originCenterX;
             }
@@ -128,9 +172,8 @@ const CGFloat sureBtnWidth = 120;
         self.contentView.center = CGPointMake(self.originCenterX, self.contentView.center.y);
     } completion:^(BOOL finished) {
         CGRect oRect = self.deleteBtn.frame;
-        if (oRect.size.width == btnWidth) {
-            return;
-        }
+        self.currentCenterX = self.contentView.center.x;
+        if (oRect.size.width == btnWidth) return;
         oRect.size.width = btnWidth;
         oRect.origin.x = self.bounds.size.width - btnWidth;
         self.deleteBtn.frame = oRect;
@@ -189,6 +232,14 @@ const CGFloat sureBtnWidth = 120;
             
         }
     }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint translation = [gestureRecognizer translationInView:self];
+    if (fabs(translation.y) > fabs(translation.x)) {
+        return false;
+    }
+    return true;
 }
 
 @end
