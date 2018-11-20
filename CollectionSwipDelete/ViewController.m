@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SwipDeleteCell.h"
 
-@interface ViewController ()
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, copy) NSMutableArray *datas;
 
 @end
 
@@ -16,14 +19,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [self.collectionView registerNib:[UINib nibWithNibName:@"SwipDeleteCell" bundle:nil] forCellWithReuseIdentifier:@"SwipDeleteCell"];
+    _datas = [NSMutableArray array];
+    for (int i = 0; i < 20; i ++) {
+        [_datas addObject:[NSString stringWithFormat:@"SwipDeleteCell__%d",i]];
+    }
+    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _datas.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    SwipDeleteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SwipDeleteCell" forIndexPath:indexPath];
+    cell.name = _datas[indexPath.row];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(self.view.bounds.size.width, 44);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 1;
+}
+
 
 
 @end

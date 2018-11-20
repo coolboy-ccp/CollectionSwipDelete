@@ -13,6 +13,9 @@
 		0039ED09219D4FF600EE53BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0039ED08219D4FF600EE53BC /* Assets.xcassets */; };
 		0039ED0C219D4FF600EE53BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0039ED0A219D4FF600EE53BC /* LaunchScreen.storyboard */; };
 		0039ED0F219D4FF600EE53BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0039ED0E219D4FF600EE53BC /* main.m */; };
+		0039ED17219D501400EE53BC /* UICollectionViewCell+SwipDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = 0039ED16219D501400EE53BC /* UICollectionViewCell+SwipDelete.m */; };
+		00EC5B9321A39D3C00B7FE97 /* SwipDeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC5B9121A39D3C00B7FE97 /* SwipDeleteCell.m */; };
+		00EC5B9421A39D3C00B7FE97 /* SwipDeleteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC5B9221A39D3C00B7FE97 /* SwipDeleteCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,11 @@
 		0039ED0B219D4FF600EE53BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0039ED0D219D4FF600EE53BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0039ED0E219D4FF600EE53BC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0039ED15219D501400EE53BC /* UICollectionViewCell+SwipDelete.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewCell+SwipDelete.h"; sourceTree = "<group>"; };
+		0039ED16219D501400EE53BC /* UICollectionViewCell+SwipDelete.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewCell+SwipDelete.m"; sourceTree = "<group>"; };
+		00EC5B9021A39D3C00B7FE97 /* SwipDeleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwipDeleteCell.h; sourceTree = "<group>"; };
+		00EC5B9121A39D3C00B7FE97 /* SwipDeleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwipDeleteCell.m; sourceTree = "<group>"; };
+		00EC5B9221A39D3C00B7FE97 /* SwipDeleteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwipDeleteCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +66,15 @@
 		0039ECFE219D4FF400EE53BC /* CollectionSwipDelete */ = {
 			isa = PBXGroup;
 			children = (
+				0039ED15219D501400EE53BC /* UICollectionViewCell+SwipDelete.h */,
+				0039ED16219D501400EE53BC /* UICollectionViewCell+SwipDelete.m */,
 				0039ECFF219D4FF400EE53BC /* AppDelegate.h */,
 				0039ED00219D4FF400EE53BC /* AppDelegate.m */,
 				0039ED02219D4FF400EE53BC /* ViewController.h */,
 				0039ED03219D4FF400EE53BC /* ViewController.m */,
+				00EC5B9021A39D3C00B7FE97 /* SwipDeleteCell.h */,
+				00EC5B9121A39D3C00B7FE97 /* SwipDeleteCell.m */,
+				00EC5B9221A39D3C00B7FE97 /* SwipDeleteCell.xib */,
 				0039ED05219D4FF400EE53BC /* Main.storyboard */,
 				0039ED08219D4FF600EE53BC /* Assets.xcassets */,
 				0039ED0A219D4FF600EE53BC /* LaunchScreen.storyboard */,
@@ -129,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0039ED0C219D4FF600EE53BC /* LaunchScreen.storyboard in Resources */,
+				00EC5B9421A39D3C00B7FE97 /* SwipDeleteCell.xib in Resources */,
 				0039ED09219D4FF600EE53BC /* Assets.xcassets in Resources */,
 				0039ED07219D4FF400EE53BC /* Main.storyboard in Resources */,
 			);
@@ -143,7 +157,9 @@
 			files = (
 				0039ED04219D4FF400EE53BC /* ViewController.m in Sources */,
 				0039ED0F219D4FF600EE53BC /* main.m in Sources */,
+				0039ED17219D501400EE53BC /* UICollectionViewCell+SwipDelete.m in Sources */,
 				0039ED01219D4FF400EE53BC /* AppDelegate.m in Sources */,
+				00EC5B9321A39D3C00B7FE97 /* SwipDeleteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
