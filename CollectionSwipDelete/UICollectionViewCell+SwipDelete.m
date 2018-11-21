@@ -20,7 +20,7 @@ const void *clViewKey = &clViewKey;
 const CGFloat btnWidth = 80;
 const CGFloat sureBtnWidth = 120;
 
-@interface UICollectionViewCell()
+@interface UICollectionViewCell()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIButton *deleteBtn;
 @property (nonatomic, assign) CGFloat originCenterX;
 @property (nonatomic, assign) CGFloat currentCenterX;
@@ -55,19 +55,11 @@ const CGFloat sureBtnWidth = 120;
     objc_setAssociatedObject(self, originCenterXKey, @(originCenterX), OBJC_ASSOCIATION_RETAIN);
 }
 
-- (BOOL)editable {
-    id objc = objc_getAssociatedObject(self, editableKey);
-    return [objc boolValue];
-}
-
-- (void)setEditable:(BOOL)editable {
-    if (editable) {
-        self.originCenterX = 0;
-        self.currentCenterX = 0;
-        [self addPanGesture];
-        [self addDeletetButton];
-    }
-    objc_setAssociatedObject(self, editableKey, @(editable), OBJC_ASSOCIATION_ASSIGN);
+- (void)enableEdit {
+    self.originCenterX = 0;
+    self.currentCenterX = 0;
+    [self addPanGesture];
+    [self addDeletetButton];
 }
 
 - (SwipDeleteCallback)editBlock {
@@ -86,18 +78,16 @@ const CGFloat sureBtnWidth = 120;
 }
 
 - (void)resetCellStatus:(UIGestureRecognizerState)state {
-    UICollectionView *clView = (UICollectionView *)[self superview];
-    if (clView) {
+    if (self.clView) {
         if (state == UIGestureRecognizerStateBegan) {
-            UICollectionViewCell *editingCell = clView.editingCell;
-            self.clView = clView;
+            UICollectionViewCell *editingCell = self.clView.editingCell;
             if (editingCell) {
                 if (editingCell != self) {
-                    [editingCell hideDelBtn];
+                    [editingCell hideDelBtnwWithAnimation:true];
                 }
             }
-            clView.touchedCell = self;
-            clView.editingCell = self;
+            self.clView.touchedCell = self;
+            self.clView.editingCell = self;
         }
     }
 }
@@ -135,7 +125,7 @@ const CGFloat sureBtnWidth = 120;
             CGPoint velocity = [pan velocityInView:self];
             CGFloat newCenterX = self.currentCenterX + translation.x;
             if (moveX > 0 && velocity.x > self.deleteBtn.frame.size.width) {
-                [self hideDelBtn];
+                [self hideDelBtnwWithAnimation:true];
                 return;
             }
             if (newCenterX > self.originCenterX) {
@@ -155,7 +145,7 @@ const CGFloat sureBtnWidth = 120;
                 [self showDelBtn];
             }
             else {
-                [self hideDelBtn];
+                [self hideDelBtnwWithAnimation:true];
             }
             self.currentCenterX = self.contentView.center.x;
             
@@ -167,8 +157,9 @@ const CGFloat sureBtnWidth = 120;
     }
 }
 
-- (void)hideDelBtn {
-    [UIView animateWithDuration:0.3 animations:^{
+- (void)hideDelBtnwWithAnimation:(BOOL)animation {
+    CGFloat duration = animation ? 0.3 : 0;
+    [UIView animateWithDuration:duration animations:^{
         self.contentView.center = CGPointMake(self.originCenterX, self.contentView.center.y);
     } completion:^(BOOL finished) {
         CGRect oRect = self.deleteBtn.frame;
@@ -225,18 +216,25 @@ const CGFloat sureBtnWidth = 120;
 }
 
 - (void)deleteAction:(UIButton *)btn {
-    [self sureEdit];
-    if (self.editBlock) {
-        BOOL sure = self.editBlock(self);
-        if (sure) {
-            
+    if ([btn.titleLabel.text isEqualToString:@"确认删除"]) {
+        if (self.editBlock) {
+            self.editBlock();
+            [self hideDelBtnwWithAnimation:false];
         }
+    }
+    else {
+        [self sureEdit];
     }
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
     CGPoint translation = [gestureRecognizer translationInView:self];
+    if (!self.clView) {
+        UICollectionView *clView = (UICollectionView *)[self superview];
+        self.clView = clView;
+    }
     if (fabs(translation.y) > fabs(translation.x)) {
+        [self.clView.editingCell hideDelBtnwWithAnimation:true];
         return false;
     }
     return true;

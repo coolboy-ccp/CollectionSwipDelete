@@ -7,7 +7,6 @@
 //
 
 #import "SwipDeleteCell.h"
-#import "UICollectionViewCell+SwipDelete.h"
 
 @implementation SwipDeleteCell
 {
@@ -21,7 +20,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.editable = true;
 }
 
 @end

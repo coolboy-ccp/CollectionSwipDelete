@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-typedef BOOL (^SwipDeleteCallback) (UICollectionViewCell *cell);
+typedef void (^SwipDeleteCallback) (void);
 
 @interface UICollectionViewCell (SwipDelete)
 
-@property (nonatomic, assign) BOOL editable;
 @property (nonatomic, copy) SwipDeleteCallback editBlock;
 
+- (void)enableEdit;
 
 @end
