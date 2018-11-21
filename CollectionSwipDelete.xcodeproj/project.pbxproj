@@ -17,7 +17,6 @@
 		00EC5B9321A39D3C00B7FE97 /* SwipDeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC5B9121A39D3C00B7FE97 /* SwipDeleteCell.m */; };
 		00EC5B9421A39D3C00B7FE97 /* SwipDeleteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC5B9221A39D3C00B7FE97 /* SwipDeleteCell.xib */; };
 		00EC5B9721A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC5B9621A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m */; };
-		00EC5B9A21A3F8AE00B7FE97 /* JYCCodeAspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC5B9921A3F8AE00B7FE97 /* JYCCodeAspects.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +37,6 @@
 		00EC5B9221A39D3C00B7FE97 /* SwipDeleteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwipDeleteCell.xib; sourceTree = "<group>"; };
 		00EC5B9521A3DC3B00B7FE97 /* UICollectionView+SwipDelete.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+SwipDelete.h"; sourceTree = "<group>"; };
 		00EC5B9621A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+SwipDelete.m"; sourceTree = "<group>"; };
-		00EC5B9821A3F8AE00B7FE97 /* JYCCodeAspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYCCodeAspects.h; sourceTree = "<group>"; };
-		00EC5B9921A3F8AE00B7FE97 /* JYCCodeAspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYCCodeAspects.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,12 +69,7 @@
 		0039ECFE219D4FF400EE53BC /* CollectionSwipDelete */ = {
 			isa = PBXGroup;
 			children = (
-				00EC5B9821A3F8AE00B7FE97 /* JYCCodeAspects.h */,
-				00EC5B9921A3F8AE00B7FE97 /* JYCCodeAspects.m */,
-				0039ED15219D501400EE53BC /* UICollectionViewCell+SwipDelete.h */,
-				0039ED16219D501400EE53BC /* UICollectionViewCell+SwipDelete.m */,
-				00EC5B9521A3DC3B00B7FE97 /* UICollectionView+SwipDelete.h */,
-				00EC5B9621A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m */,
+				00D2EEA921A5006A002D92BA /* SwipDelete */,
 				0039ECFF219D4FF400EE53BC /* AppDelegate.h */,
 				0039ED00219D4FF400EE53BC /* AppDelegate.m */,
 				0039ED02219D4FF400EE53BC /* ViewController.h */,
@@ -92,6 +84,17 @@
 				0039ED0E219D4FF600EE53BC /* main.m */,
 			);
 			path = CollectionSwipDelete;
+			sourceTree = "<group>";
+		};
+		00D2EEA921A5006A002D92BA /* SwipDelete */ = {
+			isa = PBXGroup;
+			children = (
+				0039ED15219D501400EE53BC /* UICollectionViewCell+SwipDelete.h */,
+				0039ED16219D501400EE53BC /* UICollectionViewCell+SwipDelete.m */,
+				00EC5B9521A3DC3B00B7FE97 /* UICollectionView+SwipDelete.h */,
+				00EC5B9621A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m */,
+			);
+			path = SwipDelete;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,7 +172,6 @@
 				0039ED0F219D4FF600EE53BC /* main.m in Sources */,
 				0039ED17219D501400EE53BC /* UICollectionViewCell+SwipDelete.m in Sources */,
 				0039ED01219D4FF400EE53BC /* AppDelegate.m in Sources */,
-				00EC5B9A21A3F8AE00B7FE97 /* JYCCodeAspects.m in Sources */,
 				00EC5B9721A3DC3B00B7FE97 /* UICollectionView+SwipDelete.m in Sources */,
 				00EC5B9321A39D3C00B7FE97 /* SwipDeleteCell.m in Sources */,
 			);
