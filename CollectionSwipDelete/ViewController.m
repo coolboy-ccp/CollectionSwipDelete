@@ -22,7 +22,7 @@
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"SwipDeleteCell" bundle:nil] forCellWithReuseIdentifier:@"SwipDeleteCell"];
     _datas = [NSMutableArray array];
-    for (int i = 0; i < 20; i ++) {
+    for (int i = 0; i < 5; i ++) {
         [_datas addObject:[NSString stringWithFormat:@"SwipDeleteCell__%d",i]];
     }
     [self.collectionView enableEdit];
@@ -38,6 +38,10 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -57,6 +61,10 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 1;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0, 0, 10, 0);
 }
 
 
